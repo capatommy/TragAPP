@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">TragAPP</string>
+    <string name="start">Benvenuto in TragAPP</string>
+    <string name="loginText">Login utente</string>
+    <string name="login">LOGIN</string>
+    <string name="register">REGISTRATI</string>
+    <string name="reset">Hai dimenticato la password?</string>
+    <string name="needinfo">Valori non inseriti correttamente.</string>
+    <string name="resetmessage">Controlla la mail per il reset della password.</string>
+    <string name="emailnotexist">Indirizzo email errato.</string>
+    <string name="prenotazioni">prenotazioni</string>
+    <string name="profile">profilo</string>
+    <string name="forecast">previsioni</string>
+    <string name="info">info</string>
+    <string name="sourcesel">Seleziona la sorgente</string>
+    <string name="welcomeText">Registrati</string>
+    <string name="registrationText">Inserisci i tuoi dati</string>
+    <string name="textName">Nome</string>
+    <string name="textSurname">Cognome</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="registrationButton">REGISTRATI</string>
+    <string name="alreadySigned">Hai gia\' un account?</string>
+    <string name="errorlogin">Errore nella fase di registrazione</string>
+    <string name="reserveadd">Prenota subito</string>
+    <string name="data">Data:</string>
+    <string name="scegli_data">Scegli data</string>
+    <string name="orario">Orario di partenza</string>
+    <string name="orarioR">Orario di ritorno</string>
+    <string name="logout">Log Out</string>
+
+    <string name="desc_weather">Weather condition</string>
+
+    <string name="temp_lable">Temperature:</string>
+    <string name="temp_unit">\u00B0C</string>
+    <string name="wind_lable">Wind:</string>
+    <string name="wind_unit">m/s</string>
+    <string name="pressure_lable">Pressure:</string>
+    <string name="pressure_unit">hPa</string>
+    <string name="humidity_lable">humidity:</string>
+    <string name="humidity_unit">%</string>
+    <string name="msg_failed">errore</string>
+    <string name="progress">Loading...</string>
+    <string name="action_about">about</string>
+    <string name="action_search">search</string>
+    <string name="info_spiaggia">Riviera del Conero</string>
+    <string name="info_testo">Raggiungibile solo via mare, con traghetti che partono dal porticciolo di Numana. Per i più sportivi, in canoa/sup partendo dalle spiaggie di Numana, Sirolo o Portonovo. Dal cimitero di Sirolo ci sono le indicazioni per l’Itinerario 302, che vi porterà fino ad un belvedere (uno sperone di roccia), offrendovi una vista mozzafiato sulla spiaggia delle Due Sorelle e sulla Riviera del Conero. Non è consentito scendere fino alla spiaggia tramite il Passo del Lupo per pericolo di frane.</string>
+
+    <string-array name="andata">
+        <item>08:30</item>
+        <item>09:30</item>
+        <item>10:30</item>
+        <item>12:30</item>
+        <item>14:30</item>
+    </string-array>
+
+    <string-array name="ritorno">
+        <item>11:30</item>
+        <item>12:30</item>
+        <item>15:00</item>
+        <item>16:00</item>
+    </string-array>
+</resources>

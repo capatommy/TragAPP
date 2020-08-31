@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "216858853755",
+    "firebase_url": "https://prova-f544d.firebaseio.com",
+    "project_id": "prova-f544d",
+    "storage_bucket": "prova-f544d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216858853755:android:2bb58ddfb55791d8453dde",
+        "android_client_info": {
+          "package_name": "com.example.tragapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216858853755-e86td406cpk98dj3gpoio2aklij9crqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGCB2R42qYNUVbOu4e97ILW6lgf4ut3aY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216858853755-e86td406cpk98dj3gpoio2aklij9crqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
