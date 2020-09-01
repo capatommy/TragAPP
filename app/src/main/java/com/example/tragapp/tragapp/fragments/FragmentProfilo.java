@@ -69,7 +69,6 @@ public class FragmentProfilo extends Fragment {
     private Uri uriProfileImage;
     private ProgressBar progressBar;
     private String profileImageUrl;
-    private Button save;
     private Button logout;
     private Button prenotazione;
 
@@ -90,7 +89,6 @@ public class FragmentProfilo extends Fragment {
         propic.setClipToOutline(true);
         textNome = view.findViewById(R.id.proName);
         textNome.setText(currentUser.getDisplayName());
-        save = view.findViewById(R.id.btnsave);
         logout = view.findViewById(R.id.btnexit);
         prenotazione = view.findViewById(R.id.btnpren);
 
@@ -116,12 +114,6 @@ public class FragmentProfilo extends Fragment {
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveUserInformation();
-            }
-        });
 
         propic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +140,7 @@ public class FragmentProfilo extends Fragment {
                         .circleCrop()
                         .placeholder(R.drawable.placeholder)
                         .into(propic);
-            }
+                }
             if (currentUser.getDisplayName() != null) {
                 textNome.setText(currentUser.getDisplayName());
             }
@@ -204,17 +196,16 @@ public class FragmentProfilo extends Fragment {
         final StorageReference profileImageReference =
                 FirebaseStorage.getInstance().getReference("profilepics/" + System.currentTimeMillis() + ".jpg");
         if (uriProfileImage != null) {
-            progressBar.setVisibility(View.VISIBLE); //faccio compare la rogressbar
             profileImageReference.putFile(uriProfileImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressBar.setVisibility(View.GONE);
                             profileImageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     profileImageUrl = uri.toString();
                                     Toast.makeText(getActivity().getApplicationContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
+                                    saveUserInformation();
                                 }
                             })
                                     .addOnFailureListener(new OnFailureListener() {
