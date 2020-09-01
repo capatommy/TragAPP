@@ -145,8 +145,8 @@ public class FragmentProfilo extends Fragment {
         if (currentUser != null) {
                 Glide.with(this)
                         .load(currentUser.getPhotoUrl())
-                        .placeholder(R.drawable.placeholder)
                         .circleCrop()
+                        .placeholder(R.drawable.placeholder)
                         .into(propic);
             }
             if (currentUser.getDisplayName() != null) {
@@ -179,7 +179,6 @@ public class FragmentProfilo extends Fragment {
             Bitmap bitmap = null;
             if (resultCode == RESULT_OK) {
                 if (getPickImageResultUri(intent) != null) { //abbiamo caricato la nostra immagine come bitmap
-                    //uriProfileImage=intent.getData();
                     uriProfileImage = getPickImageResultUri(intent);
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getActivity()).getContentResolver(), uriProfileImage);
@@ -191,7 +190,7 @@ public class FragmentProfilo extends Fragment {
 
                 Glide.with(this)
                         .load(bitmap)
-                        //.centerCrop()
+                        .circleCrop()
                         .into(propic);
                 uploadImageToFirebaseStorage();
             }
