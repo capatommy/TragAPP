@@ -143,22 +143,17 @@ public class FragmentProfilo extends Fragment {
 
     private void loadUserInformation() {
         if (currentUser != null) {
-            if (currentUser.getPhotoUrl() != null) {
                 Glide.with(this)
-                        .load(currentUser.getPhotoUrl().toString())
-                        .centerCrop()
-                        .into(propic);
-            } else {
-                Glide.with(this)
-                        .load(getActivity().getDrawable(R.drawable.placeholder))
-                        .centerCrop()
+                        .load(currentUser.getPhotoUrl())
+                        .placeholder(R.drawable.placeholder)
+                        .circleCrop()
                         .into(propic);
             }
             if (currentUser.getDisplayName() != null) {
                 textNome.setText(currentUser.getDisplayName());
             }
         }
-    }
+
 
     private void saveUserInformation() {
         if (profileImageUrl != null) {
@@ -196,7 +191,7 @@ public class FragmentProfilo extends Fragment {
 
                 Glide.with(this)
                         .load(bitmap)
-                        .centerCrop()
+                        //.centerCrop()
                         .into(propic);
                 uploadImageToFirebaseStorage();
             }

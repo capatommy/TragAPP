@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ReserveActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private Button btnPrenota, btnDate, btnCheck;
@@ -45,6 +46,8 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
     private int counter;
     final Calendar c = Calendar.getInstance();
     final Calendar cRit = Calendar.getInstance();
+    final Calendar cAnd = Calendar.getInstance();
+    SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
     private long tsAnd, tsRit;
     FirebaseAuth nAuth = FirebaseAuth.getInstance();
     final FirebaseUser currentUser = nAuth.getCurrentUser();
@@ -59,7 +62,6 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
         final Spinner ritornoSpinner = findViewById(R.id.spinner_ritorno);
         final TextView dateText = findViewById(R.id.text_data);
 
-        countText=findViewById(R.id.text_count);
         numAd = findViewById(R.id.NumberAdults);
 
         final ArrayAdapter<CharSequence> adapter4 = ArrayAdapter
@@ -94,10 +96,10 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
 
 
         btnPrenota=findViewById(R.id.btnPrenota);
-        btnPrenota.setEnabled(false);
         btnPrenota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(check(andataSpinner, ritornoSpinner, dateText, counter))
                 saveNote(andataSpinner, ritornoSpinner, dateText, counter);
             }
         });
@@ -109,42 +111,28 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
+
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
 
-        btnCheck=findViewById(R.id.button_check);
-        btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                check(andataSpinner, ritornoSpinner, dateText, counter);
-            }
-        });
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
-
 
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        long millis=System.currentTimeMillis();
-        java.sql.Date dateToday=new java.sql.Date(millis);
-        chosenDate = DateFormat.getDateInstance().format(c.getTime());
+        long millis = System.currentTimeMillis();
 
-        try {
-            if(sdformat.parse(chosenDate).compareTo(dateToday) < 0){
-                Toast.makeText(ReserveActivity.this,"Seleziona una data valida",Toast.LENGTH_LONG);
-            }
+        chosenDate = sdformat.format(c.getTime());
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         TextView dateText = findViewById(R.id.text_data);
         dateText.setText(chosenDate);
     }
+
+
     public void initCounter(){
         counter = 0;
         numAd.setText(String.valueOf(counter));
@@ -173,7 +161,6 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
         Log.e("ritornoMin", String.valueOf(ritornoMin));
 
 
-        //creo due percorsi, uno per utenti uno per supermercati
         final CollectionReference notebookRef = FirebaseFirestore.getInstance()
                 .collection("utenti").document(currentUser.getEmail()).collection("Prenotazioni");
 
@@ -200,39 +187,51 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
         });
     }
 
-    private void check(Spinner andataSpinner, Spinner ritornoSpinner, TextView data, int counter){ //controlla prenotazioni
+    private boolean check(Spinner andataSpinner, Spinner ritornoSpinner, TextView data, int counter){ //controlla prenotazioni
         final int andOra = Integer.parseInt(andataSpinner.getSelectedItem().toString().substring(0,2));
         final int andMinuti = Integer.parseInt(andataSpinner.getSelectedItem().toString().substring(3,5));
         final int ritOra = Integer.parseInt(ritornoSpinner.getSelectedItem().toString().substring(0,2));
         final int ritMinuti = Integer.parseInt(ritornoSpinner.getSelectedItem().toString().substring(3,5));
         final int[] count = {0};
-        Calendar today = Calendar.getInstance();
 
-        today.set(Calendar.HOUR_OF_DAY,0);
+        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar check = Calendar.getInstance(Locale.ITALY);
+        String checkdate = sdformat.format(check.getTime());
 
-        if(data.getText().equals("Scegli data")){ //se il text data è quello di default crea toast e si stoppa
+        try {
+            if(chosenDate==null){
+                Toast.makeText(ReserveActivity.this,"Seleziona una data valida",Toast.LENGTH_LONG).show();
+                return false;
+            }
+            if(sdformat.parse(chosenDate).before(sdformat.parse(checkdate))){
+                Toast.makeText(ReserveActivity.this,"Seleziona una data valida",Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(data.getText().equals("Scegli data")) { //se il text data è quello di default crea toast e si stoppa
             Toast.makeText(ReserveActivity.this, "Inserisci data", Toast.LENGTH_LONG).show();
-            return;
-        }else if(data.getText().equals(today)){ //da correggere
-            Toast.makeText(ReserveActivity.this, "Inserisci data posteriore a quella odierna", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         if(counter==0){
             Toast.makeText(ReserveActivity.this, "Inserisci numero di persone", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         if(andOra > ritOra){
             Toast.makeText(ReserveActivity.this, "Errore nella selezione dell'orario",Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         //aggiungo al calendario ora e minuti
-        c.set(Calendar.HOUR, andOra);
-        c.set(Calendar.MINUTE, andMinuti);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
+        cAnd.set(Calendar.HOUR, andOra);
+        cAnd.set(Calendar.MINUTE, andMinuti);
+        cAnd.set(Calendar.SECOND, 0);
+        cAnd.set(Calendar.MILLISECOND, 0);
         tsAnd=c.getTimeInMillis()/1000;//creo variabile time stamp in base al calendario creato, divido per mille perche non conto i millisecondi
 
         cRit.set(Calendar.HOUR, ritOra);
@@ -256,20 +255,19 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
                         }
 
                         if(count[0]<=5) {
-                            countText.setTextColor(Color.GREEN);
-                            countText.setText(String.format("Posti liberi: %s persone.", String.valueOf(count[0])));
+                            Toast.makeText(ReserveActivity.this, "Ci sono ancora posti liberi, puoi prenotare!", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            countText.setTextColor(Color.RED);
-                            countText.setText(String.format("Barche piene: %s persone.", String.valueOf(count[0])));
+                            countText.setText(String.format("Barche piene, seleziona un altro giorno.", String.valueOf(count[0])));
                         }
 
                     }
 
                 });
 
-        btnPrenota.setEnabled(true);
+
         Log.e("tsAnd", String.valueOf(tsAnd));
+        return true;
 
 
     }

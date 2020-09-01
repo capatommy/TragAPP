@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorScreenBackground"
-    android:padding="10dp"
+    android:padding="20dp"
     tools:context=".tragapp.activities.ReserveActivity">
 
     <LinearLayout
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/logbutton"
-                android:textColor="@color/colorTextPrimary"
+                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:text="@string/data"
                 tools:layout_editor_absoluteX="54dp"
@@ -69,9 +69,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal"
             android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/adulti"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/linearLayout6"
@@ -83,9 +93,9 @@
 
                 <Button
                     android:id="@+id/minusBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:textColor="@color/colorTextPrimary"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="-"
                     android:textSize="20sp"
                     android:background="@drawable/logbutton"/>
@@ -104,9 +114,9 @@
 
                 <Button
                     android:id="@+id/plusBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:textColor="@color/colorTextPrimary"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="+"
                     android:textSize="20sp"
                     android:background="@drawable/logbutton"/>
@@ -146,7 +156,8 @@
                     android:background="@color/colorPrimaryDark"
                     android:popupBackground="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent" />
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="20dp"/>
 
 
             </LinearLayout>
@@ -178,39 +189,11 @@
                 android:background="@color/colorPrimaryDark"
                 android:popupBackground="@color/colorPrimaryDark"
                 android:layout_gravity="end"
-                android:gravity="center" />
+                android:gravity="center"
+
+                android:layout_marginLeft="20dp"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <Button
-                android:id="@+id/button_check"
-                style="@style/GenButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/logbutton"
-                android:textColor="@color/colorTextPrimary"
-                android:gravity="center"
-                android:text="check"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="454dp" />
-
-            <TextView
-                android:id="@+id/text_count"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text=""
-                android:textAlignment="center"
-                android:textSize="24dp"
-                android:background="@color/colorPrimaryDark"
-                tools:layout_editor_absoluteX="192dp"
-                tools:layout_editor_absoluteY="464dp" />
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnPrenota"

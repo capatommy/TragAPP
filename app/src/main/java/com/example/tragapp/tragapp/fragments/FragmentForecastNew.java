@@ -45,11 +45,11 @@ public class FragmentForecastNew extends Fragment {
 
     List<String> days;
     Set<String> distinctDays;
-    ImageView ImageToday, ImageTomorrow, ImageLater;
-    TextView TodayDay, TomorrowDay, LaterDay;
+    ImageView ImageToday, ImageTomorrow, ImageLater, ImageLater2, ImageLater3;
+    TextView TodayDay, TomorrowDay, LaterDay, Later2Day, Later4Day;
     TextView TodayWeather;
-    TextView TodayTemp, TomorrowTemp, LaterTemp;
-    LinearLayout llToday, llTomorrow, llLater,ll;
+    TextView TodayTemp, TomorrowTemp, LaterTemp, Later2Temp, Later4Temp;
+    LinearLayout llToday, llTomorrow, llLater, llLater2, llLater3, ll;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,13 +93,20 @@ public class FragmentForecastNew extends Fragment {
         TodayTemp = view.findViewById(R.id.TodayTemp);
         TomorrowTemp = view.findViewById(R.id.TomorrowTemp);
         LaterTemp = view.findViewById(R.id.LaterTemp);
+        Later2Day = view.findViewById(R.id.Later2Day);
+        Later2Temp = view.findViewById(R.id.Later2Temp);
+        Later4Day = view.findViewById(R.id.Later3Day);
+        Later4Temp = view.findViewById(R.id.Later3Temp);
+        ImageLater2 = view.findViewById(R.id.ImageWeatherLater2);
+        ImageLater3 = view.findViewById(R.id.ImageWeatherLater3);
 
         TodayWeather = view.findViewById(R.id.TodayWeather);
 
         llToday = view.findViewById(R.id.llToday);
         llTomorrow = view.findViewById(R.id.llTomorrow);
         llLater = view.findViewById(R.id.llLater);
-        ll = view.findViewById(R.id.ll);
+        llLater2 = view.findViewById(R.id.llLater2);
+        llLater3 = view.findViewById(R.id.llLater3);
 
     }
 
@@ -146,11 +153,13 @@ public class FragmentForecastNew extends Fragment {
                     Log.i("DAYSLISTSIZE", daysList.size() + "");
                     Log.d("titolo", response.body().getCity().getName() + ", " + response.body().getCity().getCountry());
 
-                    TodayWeather.setText(daysList.get(0).get(0).getWeather().get(0).getDescription());
 
-                    UpdateTab(daysList.get(0).get(0), TodayDay, TodayTemp, ImageToday, llToday);
+
+                    UpdateTab(weatherList.get(0), TodayDay, TodayTemp, ImageToday, llToday);
                     UpdateTab(daysList.get(1).get(0), TomorrowDay, TomorrowTemp, ImageTomorrow, llTomorrow);
                     UpdateTab(daysList.get(2).get(0), LaterDay, LaterTemp, ImageLater, llLater);
+                    UpdateTab(daysList.get(3).get(0), Later2Day, Later2Temp, ImageLater2, llLater2);
+                    UpdateTab(daysList.get(4).get(0), Later4Day, Later4Temp, ImageLater3, llLater3);
 
                 }
             }

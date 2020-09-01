@@ -24,7 +24,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:layout_gravity="center_vertical"
             android:background="@drawable/start_round" />
 

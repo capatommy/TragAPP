@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="@android:color/white"
             android:layout_gravity="center"
             android:background="@drawable/logbutton"
             android:text="@string/login"/>
@@ -98,7 +98,7 @@
         <Button
             android:id="@+id/btnRegister"
             style="@style/GenButton"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

@@ -18,7 +18,7 @@
     </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorPrimary"> @color/colorAccent</item>
+        <item name="colorPrimary"> @color/colorPrimary</item>
     </style>
 
 </resources>

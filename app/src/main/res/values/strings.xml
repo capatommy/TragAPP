@@ -45,6 +45,8 @@
     <string name="action_search">search</string>
     <string name="info_spiaggia">Riviera del Conero</string>
     <string name="info_testo">Raggiungibile solo via mare, con traghetti che partono dal porticciolo di Numana. Per i più sportivi, in canoa/sup partendo dalle spiaggie di Numana, Sirolo o Portonovo. Dal cimitero di Sirolo ci sono le indicazioni per l’Itinerario 302, che vi porterà fino ad un belvedere (uno sperone di roccia), offrendovi una vista mozzafiato sulla spiaggia delle Due Sorelle e sulla Riviera del Conero. Non è consentito scendere fino alla spiaggia tramite il Passo del Lupo per pericolo di frane.</string>
+    <string name="previsioni">Previsioni Meteo</string>
+    <string name="adulti">Num. Passeggeri</string>
 
     <string-array name="andata">
         <item>08:30</item>
