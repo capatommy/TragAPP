@@ -16,11 +16,10 @@
 
         <ImageView
             android:id="@+id/imageAdd"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:background="@drawable/start_round"
-            android:src="@drawable/ic_baseline_directions_boat_24" />
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/text_add"
