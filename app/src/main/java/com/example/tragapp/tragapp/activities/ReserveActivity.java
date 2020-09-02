@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,11 +53,13 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
     private long tsAnd, tsRit;
     FirebaseAuth nAuth = FirebaseAuth.getInstance();
     final FirebaseUser currentUser = nAuth.getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
+
 
 
         final Spinner andataSpinner = findViewById(R.id.spinner_andata);
@@ -160,31 +164,50 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
         final int ritornoMin = Integer.parseInt(ritornoSpinner.getSelectedItem().toString().substring(3,5));
         Log.e("ritornoMin", String.valueOf(ritornoMin));
 
+        db.collection("Prenotazioni").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        final CollectionReference notebookRef = FirebaseFirestore.getInstance()
-                .collection("utenti").document(currentUser.getEmail()).collection("Prenotazioni");
+                        int count = 0;
+
+                        if(!queryDocumentSnapshots.isEmpty()){
+
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+
+                            for(DocumentSnapshot d : list){
+
+                                Prenotazione p = d.toObject(Prenotazione.class);
+                                if(chosenDate.equals(p.getData()) && andataOra == p.getOraAndata() &&
+                                        andataMin == p.getMinutiAndata() ){
+                                    count += p.getNumAd();
 
 
-        notebookRef.document(currentUser.getEmail()+ data.getText())//metodo che controlla se esiste già una mia prenotazione per qeul supermercato in quel giorno, procede solo in caso di false
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Toast.makeText(ReserveActivity.this, "Cancella prima la vecchia prenotazione", Toast.LENGTH_LONG).show();
+                                }
 
-                    } else {
-                        notebookRef.add(new Prenotazione(andataOra, andataMin, ritornoOra, ritornoMin, chosenDate, tsAnd, tsRit, counter));
+                            }
 
-                        Log.e("a", c.toString());
-                        finish();
+                        }
+
+                        if((count+counter)<=10){
+                            Toast.makeText(ReserveActivity.this, "Ci sono ancora posti liberi, puoi prenotare!", Toast.LENGTH_LONG).show();
+                            Log.d("count", String.valueOf(count));
+                            db.collection("utenti").document(currentUser.getEmail()).collection("Prenotazioni")
+                                    .add(new Prenotazione(andataOra, andataMin, ritornoOra, ritornoMin, chosenDate, tsAnd, tsRit, counter));
+
+                            db.collection("Prenotazioni")
+                                    .add(new Prenotazione(andataOra, andataMin, ritornoOra, ritornoMin, chosenDate, tsAnd, tsRit, counter,currentUser.getEmail()));
+
+                            finish();
+
+                        }else{
+                            Toast.makeText(ReserveActivity.this, "Barche piene, seleziona un altro giorno", Toast.LENGTH_LONG).show();
+
+                        }
+
                     }
-                } else {
+                });
 
-                }
-            }
-        });
     }
 
     private boolean check(Spinner andataSpinner, Spinner ritornoSpinner, TextView data, int counter){ //controlla prenotazioni
@@ -193,6 +216,7 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
         final int ritOra = Integer.parseInt(ritornoSpinner.getSelectedItem().toString().substring(0,2));
         final int ritMinuti = Integer.parseInt(ritornoSpinner.getSelectedItem().toString().substring(3,5));
         final int[] count = {0};
+
 
         SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
         Calendar check = Calendar.getInstance(Locale.ITALY);
@@ -227,48 +251,10 @@ public class ReserveActivity extends AppCompatActivity implements DatePickerDial
             return false;
         }
 
-        //aggiungo al calendario ora e minuti
-        cAnd.set(Calendar.HOUR, andOra);
-        cAnd.set(Calendar.MINUTE, andMinuti);
-        cAnd.set(Calendar.SECOND, 0);
-        cAnd.set(Calendar.MILLISECOND, 0);
-        tsAnd=c.getTimeInMillis()/1000;//creo variabile time stamp in base al calendario creato, divido per mille perche non conto i millisecondi
-
-        cRit.set(Calendar.HOUR, ritOra);
-        cRit.set(Calendar.MINUTE, ritMinuti);
-        cRit.set(Calendar.SECOND, 0);
-        cRit.set(Calendar.MILLISECOND, 0);
-        tsRit=cRit.getTimeInMillis()/1000;
-
-
-
-        FirebaseFirestore.getInstance()
-                .collection("Prenotazioni")
-                .whereEqualTo("tsAnd", tsAnd).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() { // vado nel percorso di firebase e guardo se ci sono documenti con il mio stesso timestamp
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments(); //creo una lista con ogni documento trovato con quel ts
-                        for(DocumentSnapshot snapshot : list){ //per ogni documento della lista incremento contatore di uno
-                            count[0] += 1;
-                        }
-
-                        if(count[0]<=5) {
-                            Toast.makeText(ReserveActivity.this, "Ci sono ancora posti liberi, puoi prenotare!", Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            countText.setText(String.format("Barche piene, seleziona un altro giorno.", String.valueOf(count[0])));
-                        }
-
-                    }
-
-                });
-
-
-        Log.e("tsAnd", String.valueOf(tsAnd));
         return true;
 
 
     }
+
+
 }
