@@ -18,10 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".tragapp.activities.ReserveActivity"/>
-        <activity android:name=".tragapp.activities.RegisterActivity"/>
-        <activity android:name=".tragapp.activities.ProfileActivity"/>
-        <activity android:name=".tragapp.activities.MainActivity">
+        <activity android:name=".tragapp.activities.ReserveActivity"
+                    android:screenOrientation="portrait"/>
+        <activity android:name=".tragapp.activities.RegisterActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".tragapp.activities.ProfileActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".tragapp.activities.MainActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
